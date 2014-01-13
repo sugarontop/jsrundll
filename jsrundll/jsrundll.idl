@@ -1,7 +1,7 @@
 import "oaidl.idl";
 import "ocidl.idl";
 
-// Donot forget that add "typelib jsrundll.tbl" to jsrundll.rc.
+// Do not forget that add "typelib jsrundll.tlb" to jsrundll.rc.
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 [	object,

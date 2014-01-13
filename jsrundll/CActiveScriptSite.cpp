@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CActiveScriptSite.h"
 
-
 extern CComPtr<IActiveScript> pAS;
 
 // For script debugging...
@@ -17,13 +16,13 @@ STDMETHODIMP CActiveScriptSite::GetDocumentContextFromPosition(/*[in]*/ DWORD dw
 		return E_POINTER;
 
 	*ppsc = 0; 
-	if (!mpDebugDoc) 
+	if (!pDebugDoc_) 
 		return E_UNEXPECTED;
 
 	ULONG ulStartPos=0; 
 
-	if ( S_OK == mpDebugDoc->GetScriptBlockInfo(pdwSourceContext, 0, &ulStartPos, 0))
-		return mpDebugDoc->CreateDebugDocumentContext(ulStartPos+uCharacterOffset, uNumChars, ppsc); 
+	if ( S_OK == pDebugDoc_->GetScriptBlockInfo(pdwSourceContext, 0, &ulStartPos, 0))
+		return pDebugDoc_->CreateDebugDocumentContext(ulStartPos+uCharacterOffset, uNumChars, ppsc); 
 
 	return E_FAIL;
 } 
@@ -34,17 +33,16 @@ STDMETHODIMP CActiveScriptSite::GetApplication(/*[out]*/ IDebugApplication **ppd
 		return E_POINTER; 
 
 	*ppda = 0; 
-	if (!mpDebugApp) 
+	if (!pDebugApp_) 
 		return E_UNEXPECTED; 
 
-	*ppda = mpDebugApp; 
-	mpDebugApp->AddRef();
+	*ppda = pDebugApp_; 
+	pDebugApp_->AddRef();
 	return S_OK; 
 } 
 
 STDMETHODIMP CActiveScriptSite::GetRootApplicationNode(/*[out]*/ IDebugApplicationNode** ppdanRoot) 
 { 
-	// If we have only one document, we can safely return NULL here (this is the root). 
 	if (!ppdanRoot) 
 		return E_POINTER; 
 
@@ -56,10 +54,7 @@ STDMETHODIMP CActiveScriptSite::OnScriptErrorDebug(/*[in]*/ IActiveScriptErrorDe
 											  /*[out]*/ BOOL *pfEnterDebugger,
 											  /*[out]*/ BOOL *pfCallOnScriptErrorWhenContinuing) 
 { 
-	pErrorDebug;
-	// Runtime errors get here before go into IActiveScriptSite::OnScriptError 
-	// Query the IActiveScriptErrorDebug interface for more 
-	// info on what kind of error occurred. 
+	
 	*pfEnterDebugger = FALSE; 
 	*pfCallOnScriptErrorWhenContinuing = TRUE;
 	return S_OK; 
@@ -67,20 +62,19 @@ STDMETHODIMP CActiveScriptSite::OnScriptErrorDebug(/*[in]*/ IActiveScriptErrorDe
 
 HRESULT CActiveScriptSite::CreateScriptDebugger()
 {
-	// Create script debugger interfaces.
 	HRESULT hr = ::CoCreateInstance(CLSID_ProcessDebugManager, NULL, CLSCTX_INPROC_SERVER, 
-		IID_IProcessDebugManager, (void**)&mpDebugMgr);
+		IID_IProcessDebugManager, (void**)&pDebugMgr_);
 	if (SUCCEEDED(hr))
 	{
-		hr = mpDebugMgr->CreateApplication(&mpDebugApp);
+		hr = pDebugMgr_->CreateApplication(&pDebugApp_);
 	}
 	if (SUCCEEDED(hr))
 	{
-		hr = mpDebugApp->SetName(L"jsrun");
+		hr = pDebugApp_->SetName(L"jsrun");
 	}
 	if (SUCCEEDED(hr))
 	{
-		hr = mpDebugMgr->AddApplication(mpDebugApp, &mAppCookie);
+		hr = pDebugMgr_->AddApplication(pDebugApp_, &AppCookie_);
 	}
 
 	if (FAILED(hr))
@@ -94,22 +88,21 @@ HRESULT CActiveScriptSite::CreateScriptDebugger()
 
 HRESULT CActiveScriptSite::CreateDocumentForDebugger(BSTR scripts)
 {
-	if (!mpDebugMgr)
+	if (!pDebugMgr_)
 		return E_UNEXPECTED;
-
-	// Release previous used document.
+	
 	ReleaseDebugDocument();
 	
-	HRESULT hr = mpDebugMgr->CreateDebugDocumentHelper(0, &mpDebugDoc);
+	HRESULT hr = pDebugMgr_->CreateDebugDocumentHelper(0, &pDebugDoc_);
 	if (SUCCEEDED(hr))
 	{
-		hr = mpDebugDoc->Init(mpDebugApp, L"short codename", L"long codename", TEXT_DOC_ATTR_READONLY|TEXT_DOC_ATTR_TYPE_SCRIPT);
+		hr = pDebugDoc_->Init(pDebugApp_, L"short codename", L"long codename", TEXT_DOC_ATTR_READONLY|TEXT_DOC_ATTR_TYPE_SCRIPT);
 	}
 	
 	
 	if (SUCCEEDED(hr))
 	{
-		hr = mpDebugDoc->Attach(0);
+		hr = pDebugDoc_->Attach(0);
 	}
 
 	/*if (SUCCEEDED(hr))
@@ -117,24 +110,24 @@ HRESULT CActiveScriptSite::CreateDocumentForDebugger(BSTR scripts)
 		dochost.Release();
 		hr = DebugDocumentHost::CreateInstance( &dochost );
 		
-		hr = mpDebugDoc->SetDebugDocumentHost( dochost );
+		hr = pDebugDoc_->SetDebugDocumentHost( dochost );
 
 	}*/
 
 
 	if (SUCCEEDED(hr))
 	{
-		hr = mpDebugDoc->AddUnicodeText(scripts);
+		hr = pDebugDoc_->AddUnicodeText(scripts);
 	}
 	if (SUCCEEDED(hr))
 	{
 		ULONG len = ::SysStringLen(scripts);
-		hr = mpDebugDoc->DefineScriptBlock(0, len, pAS, FALSE, &pdwSourceContext);
+		hr = pDebugDoc_->DefineScriptBlock(0, len, pAS, FALSE, &pdwSourceContext);
 	}
 	
 	/*if (SUCCEEDED(hr))
 	{
-		hr = mpDebugDoc->BringDocumentToTop();
+		hr = pDebugDoc_->BringDocumentToTop();
 
 		CComPtr<IDebugApplication> app;
 		GetApplication( &app );
@@ -149,11 +142,11 @@ HRESULT CActiveScriptSite::CreateDocumentForDebugger(BSTR scripts)
 
 void CActiveScriptSite::ReleaseDebugDocument()
 {
-	if (mpDebugDoc)
+	if (pDebugDoc_)
 	{
-		mpDebugDoc->Detach();
-		mpDebugDoc->Release();
-		mpDebugDoc = 0;
+		pDebugDoc_->Detach();
+		pDebugDoc_->Release();
+		pDebugDoc_ = 0;
 	}
 }
 
@@ -162,23 +155,22 @@ void CActiveScriptSite::ReleaseScriptDebugger()
 	// Release script debugger interfaces.
 	ReleaseDebugDocument();
 
-	if (mpDebugMgr && mAppCookie)
+	if (pDebugMgr_ && AppCookie_)
 	{
-		mpDebugMgr->RemoveApplication(mAppCookie);
-		mAppCookie = 0;
+		pDebugMgr_->RemoveApplication(AppCookie_);
+		AppCookie_ = 0;
 	}
-	//SAFE_RELEASE(mpDebugApp);
-	if ( mpDebugApp )
+	
+	if ( pDebugApp_ )
 	{
-		mpDebugApp->Release();
-		mpDebugApp = NULL;
+		pDebugApp_->Release();
+		pDebugApp_ = NULL;
 	}
-	//SAFE_RELEASE(mpDebugMgr);
-
-	if ( mpDebugMgr )
+	
+	if ( pDebugMgr_ )
 	{
-		mpDebugMgr->Release();
-		mpDebugMgr = NULL;
+		pDebugMgr_->Release();
+		pDebugMgr_ = NULL;
 	}
 }
 

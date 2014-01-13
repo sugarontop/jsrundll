@@ -24,44 +24,13 @@
     <ClInclude Include="targetver.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="jsrundll.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="object_debug.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="jsrundll.cpp">
+    <ClCompile Include="sample2.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="CActiveScriptSite.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="jsrundll.def">
-      <Filter>ソース ファイル</Filter>
-    </None>
-    <None Include="Debug\jsrundll.tlb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Midl Include="jsrundll.idl">
-      <Filter>ソース ファイル</Filter>
-    </Midl>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="jsrundll.rc">
-      <Filter>リソース ファイル</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>

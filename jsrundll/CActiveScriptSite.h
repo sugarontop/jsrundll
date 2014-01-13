@@ -20,10 +20,10 @@ class CActiveScriptSite : public IActiveScriptSite
 	public:
 		CActiveScriptSite(IActiveScript* ac):m_uRef(0),ErrLineNo_(0),ErrLinePos_(0),ac_(ac)
 			#ifdef __Script_Debug__
-				,mpDebugMgr(0)
-				,mpDebugApp(0)
-				,mpDebugDoc(0)
-				,mAppCookie(0)
+				,pDebugMgr_(0)
+				,pDebugApp_(0)
+				,pDebugDoc_(0)
+				,AppCookie_(0)
 			#endif
 		{
 			ZeroMemory( &ei_, sizeof(EXCEPINFO) );
@@ -120,19 +120,17 @@ class CActiveScriptSite : public IActiveScriptSite
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		#ifdef __Script_Debug__
 			// --- IActiveScriptSiteDebug methods ---
-			STDMETHODIMP GetDocumentContextFromPosition(/*[in]*/ DWORD dwSourceContext,
-				/*[in]*/ ULONG uCharacterOffset, /*[in]*/ ULONG uNumChars,
-				/*[out]*/ IDebugDocumentContext** ppsc); 
-			STDMETHODIMP GetApplication(/*[out]*/ IDebugApplication **ppda);
-			STDMETHODIMP GetRootApplicationNode(/*[out]*/ IDebugApplicationNode** ppdanRoot); 
-			STDMETHODIMP OnScriptErrorDebug(/*[in]*/ IActiveScriptErrorDebug *pErrorDebug,
-				/*[out]*/ BOOL *pfEnterDebugger,/*[out]*/ BOOL *pfCallOnScriptErrorWhenContinuing);
-					/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			IProcessDebugManager*	mpDebugMgr;
-			IDebugApplication*		mpDebugApp;
-			IDebugDocumentHelper*	mpDebugDoc;
-			DWORD					mAppCookie;
-			
+			STDMETHODIMP GetDocumentContextFromPosition( DWORD dwSourceContext,	ULONG uCharacterOffset, ULONG uNumChars, IDebugDocumentContext** ppsc); 
+			STDMETHODIMP GetApplication(IDebugApplication **ppda);
+			STDMETHODIMP GetRootApplicationNode(IDebugApplicationNode** ppdanRoot); 
+			STDMETHODIMP OnScriptErrorDebug( IActiveScriptErrorDebug *pErrorDebug, BOOL *pfEnterDebugger,BOOL *pfCallOnScriptErrorWhenContinuing);
+		
+		private :					
+			IProcessDebugManager*	pDebugMgr_;
+			IDebugApplication*		pDebugApp_;
+			IDebugDocumentHelper*	pDebugDoc_;
+			DWORD					AppCookie_;
+		public :
 
 			CComPtr<IDebugDocumentHost> dochost;
 			HRESULT CreateScriptDebugger();

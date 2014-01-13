@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jsrundll", "jsrundll\jsrund
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample", "sample\sample.vcxproj", "{6B7A50B7-323A-446D-A8B9-B545F1801028}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sample2", "sample2\sample2.vcxproj", "{8D0B6B3E-FB6C-4D4F-A7E5-348821B06FD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{6B7A50B7-323A-446D-A8B9-B545F1801028}.Debug|Win32.Build.0 = Debug|Win32
 		{6B7A50B7-323A-446D-A8B9-B545F1801028}.Release|Win32.ActiveCfg = Release|Win32
 		{6B7A50B7-323A-446D-A8B9-B545F1801028}.Release|Win32.Build.0 = Release|Win32
+		{8D0B6B3E-FB6C-4D4F-A7E5-348821B06FD3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8D0B6B3E-FB6C-4D4F-A7E5-348821B06FD3}.Debug|Win32.Build.0 = Debug|Win32
+		{8D0B6B3E-FB6C-4D4F-A7E5-348821B06FD3}.Release|Win32.ActiveCfg = Release|Win32
+		{8D0B6B3E-FB6C-4D4F-A7E5-348821B06FD3}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
