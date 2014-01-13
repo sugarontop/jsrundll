@@ -1,8 +1,3 @@
-// stdafx.h : 標準のシステム インクルード ファイルのインクルード ファイル、または
-// 参照回数が多く、かつあまり変更されない、プロジェクト専用のインクルード ファイル
-// を記述します。
-//
-
 #pragma once
 
 #include "targetver.h"
@@ -10,6 +5,8 @@
 #include <stdio.h>
 #include <tchar.h>
 
+#include <windows.h>
+#include <memory>
 
-
-// TODO: プログラムに必要な追加ヘッダーをここで参照してください。
+#define JSRUN_CLIENT
+#define JSCRIPT_ENGINE_VERSION 9

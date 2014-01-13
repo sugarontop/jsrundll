@@ -11,6 +11,26 @@
 // Windows ヘッダー ファイル:
 #include <windows.h>
 
+#define DLLEXPORT     extern "C" __declspec( dllexport )
 
+#define __Script_Debug__				// speedが1/3になる
 
-// TODO: プログラムに必要な追加ヘッダーをここで参照してください。
+#pragma warning(disable: 4482 )
+#define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // 一部の CString コンストラクターは明示的です。
+
+#include <atlbase.h>
+#include <atlstr.h>
+#include <atlcom.h>
+#include <atlenc.h>
+
+#include <ActivScp.h>
+#include <string>
+#include <map>
+#include <vector>
+#include <wincrypt.h>
+#include <memory>
+
+#ifdef __Script_Debug__
+#include <ActivDbg.h>
+#endif
+
