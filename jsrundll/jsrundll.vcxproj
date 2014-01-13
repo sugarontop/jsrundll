@@ -106,6 +106,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Debug\jsrundll.tlb" />
     <None Include="jsrundll.def" />
   </ItemGroup>
   <ItemGroup>
