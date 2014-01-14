@@ -16,6 +16,9 @@ static std::shared_ptr<AppInfo> gAppInfo;
 
 void Finalize();
 
+template <class T> CComPtr<ITypeInfo> IDispatchImpl2<T>::pTypeInfo_;
+
+
 bool Initial(int version_number)
 {
 	HRESULT hr = E_FAIL;
@@ -196,7 +199,7 @@ err:
 	if ( pASS->ErrLineNo() )
 	{
 		CString msg;
-		msg.Format( L"ERROR %ds %d—ñ, %s, %s \n", pASS->ErrLineNo()+1, pASS->ErrPos(), epi.bstrSource, epi.bstrDescription );
+		msg.Format( L"ERROR row=%d col=%d, %s, %s \n", pASS->ErrLineNo()+1, pASS->ErrPos(), epi.bstrSource, epi.bstrDescription );
 		gErrMsg = (LPCWSTR)msg;		
 
 		
@@ -296,9 +299,9 @@ DLLEXPORT JSCONTEXT  WINAPI JSSetStaticObject( JSCONTEXT cxt, LPCWSTR name, IDis
 	return JSSetStaticObjects( cxt, nms, disp, 1 );	
 }
 
-// AddNamedItem‚³‚ê‚½object‚ðŽæ“¾
+// Get AddNamedItem object.
 // ex. LPOLESTR nm[] = { L"Debug" };
-//  Array,Object,Function‚ÍŽæ“¾‚Å‚«‚½                
+//  Array,Object,Function                
 bool GetStaticObject( IActiveScript* pAS, LPOLESTR* nm, IDispatch** pout )
 {
 	HRESULT hr;
@@ -333,7 +336,7 @@ DLLEXPORT bool WINAPI  JSGetStatic( JSCONTEXT cxt, LPCWSTR nm, IDispatch** pout 
 {
 	if(dwReturnMask & SCRIPTINFO_IUNKNOWN)
 	{
-		 if ( lstrcmpW(pstrName, CDebug::name() )==0)
+		if ( lstrcmpW(pstrName, CDebug::name() )==0)
 		{
 			CComPtr<IDispatch> disp;
 			CDebug::CreateInstance( &disp ); // NOT REGISTORY CLASS
@@ -345,10 +348,6 @@ DLLEXPORT bool WINAPI  JSGetStatic( JSCONTEXT cxt, LPCWSTR nm, IDispatch** pout 
 				CComPtr<IDispatch> arr;
 				LPOLESTR nm[] = { L"Array" };
 				bool bl =  GetStaticObject( pAS, nm, &arr );
-
-//	DISPID id3;
-//	LPOLESTR nm3[] = { L"isArray" };
-//	arr->GetIDsOfNames( IID_NULL, nm3, 1,LOCALE_USER_DEFAULT, &id3 );
 
 				CComVariant var = arr;
 				HRESULT hr;
@@ -370,7 +369,6 @@ DLLEXPORT bool WINAPI  JSGetStatic( JSCONTEXT cxt, LPCWSTR nm, IDispatch** pout 
 		else
 		{
 			std::map<std::wstring,IDispatch*>::iterator it = mapStaticObject_.find( pstrName );
-
 			if ( it != mapStaticObject_.end())
 			{
 				IDispatch* p = mapStaticObject_[ pstrName ];
@@ -379,8 +377,6 @@ DLLEXPORT bool WINAPI  JSGetStatic( JSCONTEXT cxt, LPCWSTR nm, IDispatch** pout 
 				p->AddRef();
 				return S_OK;
 			}
-
-
 		}
 	}
 	else if ( dwReturnMask & SCRIPTINFO_ITYPEINFO )

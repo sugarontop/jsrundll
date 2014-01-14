@@ -2,8 +2,7 @@
 
 #include "jsrundll_h.h"
 #include "IDispatchImpl2.h"
-#include <DispEx.h>
-using namespace ATL;
+
 
 class __declspec(uuid("{15F47057-DE9B-4638-8B72-CABF72E93658}")) CDebug
 	: public CComObjectRootEx<CComSingleThreadModel>
