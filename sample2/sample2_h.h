@@ -4,9 +4,9 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Tue Jan 14 20:13:44 2014
+/* at Tue Jan 14 20:23:54 2014
  */
-/* Compiler settings for jsrundll.idl:
+/* Compiler settings for sample2.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
@@ -36,8 +36,8 @@
 #include "ole2.h"
 #endif /*COM_NO_WINDOWS_H*/
 
-#ifndef __jsrundll_h_h__
-#define __jsrundll_h_h__
+#ifndef __sample2_h_h__
+#define __sample2_h_h__
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
 #pragma once
@@ -45,18 +45,18 @@
 
 /* Forward Declarations */ 
 
-#ifndef __IObjectDebug_FWD_DEFINED__
-#define __IObjectDebug_FWD_DEFINED__
-typedef interface IObjectDebug IObjectDebug;
+#ifndef __IObjectAppHelper_FWD_DEFINED__
+#define __IObjectAppHelper_FWD_DEFINED__
+typedef interface IObjectAppHelper IObjectAppHelper;
 
-#endif 	/* __IObjectDebug_FWD_DEFINED__ */
+#endif 	/* __IObjectAppHelper_FWD_DEFINED__ */
 
 
-#ifndef __IObjectDebug_FWD_DEFINED__
-#define __IObjectDebug_FWD_DEFINED__
-typedef interface IObjectDebug IObjectDebug;
+#ifndef __IObjectAppHelper_FWD_DEFINED__
+#define __IObjectAppHelper_FWD_DEFINED__
+typedef interface IObjectAppHelper IObjectAppHelper;
 
-#endif 	/* __IObjectDebug_FWD_DEFINED__ */
+#endif 	/* __IObjectAppHelper_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -68,57 +68,56 @@ extern "C"{
 #endif 
 
 
-#ifndef __IObjectDebug_INTERFACE_DEFINED__
-#define __IObjectDebug_INTERFACE_DEFINED__
+#ifndef __IObjectAppHelper_INTERFACE_DEFINED__
+#define __IObjectAppHelper_INTERFACE_DEFINED__
 
-/* interface IObjectDebug */
-/* [helpstring][unique][dual][uuid][object] */ 
+/* interface IObjectAppHelper */
+/* [unique][dual][uuid][object] */ 
 
 
-EXTERN_C const IID IID_IObjectDebug;
+EXTERN_C const IID IID_IObjectAppHelper;
 
 #if defined(__cplusplus) && !defined(CINTERFACE)
     
-    MIDL_INTERFACE("C5E7D07E-C72B-4BAC-B151-04C26E19FFB7")
-    IObjectDebug : public IDispatch
+    MIDL_INTERFACE("5FC01A67-EE06-40DE-A7E7-DEB4D6A0724C")
+    IObjectAppHelper : public IDispatch
     {
     public:
-        virtual /* [id] */ HRESULT STDMETHODCALLTYPE alert( 
-            /* [in] */ BSTR txt) = 0;
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE Hello( void) = 0;
         
     };
     
     
 #else 	/* C style interface */
 
-    typedef struct IObjectDebugVtbl
+    typedef struct IObjectAppHelperVtbl
     {
         BEGIN_INTERFACE
         
         HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
-            IObjectDebug * This,
+            IObjectAppHelper * This,
             /* [in] */ REFIID riid,
             /* [annotation][iid_is][out] */ 
             _COM_Outptr_  void **ppvObject);
         
         ULONG ( STDMETHODCALLTYPE *AddRef )( 
-            IObjectDebug * This);
+            IObjectAppHelper * This);
         
         ULONG ( STDMETHODCALLTYPE *Release )( 
-            IObjectDebug * This);
+            IObjectAppHelper * This);
         
         HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
-            IObjectDebug * This,
+            IObjectAppHelper * This,
             /* [out] */ UINT *pctinfo);
         
         HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
-            IObjectDebug * This,
+            IObjectAppHelper * This,
             /* [in] */ UINT iTInfo,
             /* [in] */ LCID lcid,
             /* [out] */ ITypeInfo **ppTInfo);
         
         HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
-            IObjectDebug * This,
+            IObjectAppHelper * This,
             /* [in] */ REFIID riid,
             /* [size_is][in] */ LPOLESTR *rgszNames,
             /* [range][in] */ UINT cNames,
@@ -126,7 +125,7 @@ EXTERN_C const IID IID_IObjectDebug;
             /* [size_is][out] */ DISPID *rgDispId);
         
         /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
-            IObjectDebug * This,
+            IObjectAppHelper * This,
             /* [annotation][in] */ 
             _In_  DISPID dispIdMember,
             /* [annotation][in] */ 
@@ -144,16 +143,15 @@ EXTERN_C const IID IID_IObjectDebug;
             /* [annotation][out] */ 
             _Out_opt_  UINT *puArgErr);
         
-        /* [id] */ HRESULT ( STDMETHODCALLTYPE *alert )( 
-            IObjectDebug * This,
-            /* [in] */ BSTR txt);
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *Hello )( 
+            IObjectAppHelper * This);
         
         END_INTERFACE
-    } IObjectDebugVtbl;
+    } IObjectAppHelperVtbl;
 
-    interface IObjectDebug
+    interface IObjectAppHelper
     {
-        CONST_VTBL struct IObjectDebugVtbl *lpVtbl;
+        CONST_VTBL struct IObjectAppHelperVtbl *lpVtbl;
     };
 
     
@@ -161,31 +159,31 @@ EXTERN_C const IID IID_IObjectDebug;
 #ifdef COBJMACROS
 
 
-#define IObjectDebug_QueryInterface(This,riid,ppvObject)	\
+#define IObjectAppHelper_QueryInterface(This,riid,ppvObject)	\
     ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
 
-#define IObjectDebug_AddRef(This)	\
+#define IObjectAppHelper_AddRef(This)	\
     ( (This)->lpVtbl -> AddRef(This) ) 
 
-#define IObjectDebug_Release(This)	\
+#define IObjectAppHelper_Release(This)	\
     ( (This)->lpVtbl -> Release(This) ) 
 
 
-#define IObjectDebug_GetTypeInfoCount(This,pctinfo)	\
+#define IObjectAppHelper_GetTypeInfoCount(This,pctinfo)	\
     ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
 
-#define IObjectDebug_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+#define IObjectAppHelper_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
     ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
 
-#define IObjectDebug_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+#define IObjectAppHelper_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
     ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
 
-#define IObjectDebug_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+#define IObjectAppHelper_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
     ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
 
 
-#define IObjectDebug_alert(This,txt)	\
-    ( (This)->lpVtbl -> alert(This,txt) ) 
+#define IObjectAppHelper_Hello(This)	\
+    ( (This)->lpVtbl -> Hello(This) ) 
 
 #endif /* COBJMACROS */
 
@@ -195,27 +193,22 @@ EXTERN_C const IID IID_IObjectDebug;
 
 
 
-#endif 	/* __IObjectDebug_INTERFACE_DEFINED__ */
+#endif 	/* __IObjectAppHelper_INTERFACE_DEFINED__ */
 
 
 
-#ifndef __BrokerServer_LIBRARY_DEFINED__
-#define __BrokerServer_LIBRARY_DEFINED__
+#ifndef __BrokerAppServer_LIBRARY_DEFINED__
+#define __BrokerAppServer_LIBRARY_DEFINED__
 
-/* library BrokerServer */
+/* library BrokerAppServer */
 /* [uuid] */ 
 
 
 
-EXTERN_C const IID LIBID_BrokerServer;
-#endif /* __BrokerServer_LIBRARY_DEFINED__ */
+EXTERN_C const IID LIBID_BrokerAppServer;
+#endif /* __BrokerAppServer_LIBRARY_DEFINED__ */
 
 /* Additional Prototypes for ALL interfaces */
-
-unsigned long             __RPC_USER  BSTR_UserSize(     unsigned long *, unsigned long            , BSTR * ); 
-unsigned char * __RPC_USER  BSTR_UserMarshal(  unsigned long *, unsigned char *, BSTR * ); 
-unsigned char * __RPC_USER  BSTR_UserUnmarshal(unsigned long *, unsigned char *, BSTR * ); 
-void                      __RPC_USER  BSTR_UserFree(     unsigned long *, BSTR * ); 
 
 /* end of Additional Prototypes */
 

@@ -329,11 +329,11 @@ DLLEXPORT bool WINAPI  JSGetStatic( JSCONTEXT cxt, LPCWSTR nm, IDispatch** pout 
 	return GetStaticObject( pAS, nms, pout );
 }
 
-STDMETHODIMP CActiveScriptSite::GetItemInfo(LPCOLESTR pstrName,DWORD dwReturnMask,	IUnknown **ppiunkItem,ITypeInfo **ppti)
+	STDMETHODIMP CActiveScriptSite::GetItemInfo(LPCOLESTR pstrName,DWORD dwReturnMask,	IUnknown **ppiunkItem,ITypeInfo **ppti)
 {
 	if(dwReturnMask & SCRIPTINFO_IUNKNOWN)
 	{
-		if ( lstrcmpW(pstrName, CDebug::name() )==0)
+		 if ( lstrcmpW(pstrName, CDebug::name() )==0)
 		{
 			CComPtr<IDispatch> disp;
 			CDebug::CreateInstance( &disp ); // NOT REGISTORY CLASS
@@ -341,9 +341,58 @@ STDMETHODIMP CActiveScriptSite::GetItemInfo(LPCOLESTR pstrName,DWORD dwReturnMas
 			*ppiunkItem=(IUnknown*)disp.p;
 			disp.p->AddRef();
 
+			{				
+				CComPtr<IDispatch> arr;
+				LPOLESTR nm[] = { L"Array" };
+				bool bl =  GetStaticObject( pAS, nm, &arr );
+
+//	DISPID id3;
+//	LPOLESTR nm3[] = { L"isArray" };
+//	arr->GetIDsOfNames( IID_NULL, nm3, 1,LOCALE_USER_DEFAULT, &id3 );
+
+				CComVariant var = arr;
+				HRESULT hr;
+				LPOLESTR nm2[] = { L"Value" };
+				DISPID id; VARIANT v;EXCEPINFO ex; UINT er; DISPPARAMS pm = { NULL,0,0,0 };
+
+				DISPID dispIDNamedArgs[1] = { DISPID_PROPERTYPUT };
+				pm.cArgs = 1;
+				pm.rgvarg = &var;
+				pm.cNamedArgs = 1;
+				pm.rgdispidNamedArgs = dispIDNamedArgs;
+
+				hr = disp.p->GetIDsOfNames( IID_NULL, nm2, 1, 0, &id );
+				hr = disp.p->Invoke( id, IID_NULL, 0, DISPATCH_PROPERTYPUT, &pm, &v, &ex, &er );
+			}
+
+			return S_OK;
+		}
+		else
+		{
+			std::map<std::wstring,IDispatch*>::iterator it = mapStaticObject_.find( pstrName );
+
+			if ( it != mapStaticObject_.end())
+			{
+				IDispatch* p = mapStaticObject_[ pstrName ];
+				*ppiunkItem=(IUnknown*)p;
+
+				p->AddRef();
+				return S_OK;
+			}
+
+
+		}
+	}
+	else if ( dwReturnMask & SCRIPTINFO_ITYPEINFO )
+	{
+		if ( lstrcmpW(pstrName, CDebug::name() )==0)
+		{
+			CComPtr<IDispatch> disp;
+			CDebug::CreateInstance( &disp ); // NOT REGISTORY CLASS
+
+			disp->GetTypeInfo( 0,LOCALE_USER_DEFAULT, ppti );
 			return S_OK;
 		}
 	}
-
 	return TYPE_E_ELEMENTNOTFOUND;
 }

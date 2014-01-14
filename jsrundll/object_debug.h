@@ -18,7 +18,7 @@ public:
 	}
 	~CDebug()
 	{
-		int a = 0;
+		
 	}
 	BEGIN_COM_MAP(CDebug)
 		COM_INTERFACE_ENTRY(IObjectDebug)

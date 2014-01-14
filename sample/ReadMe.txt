@@ -1,2 +1,2 @@
 ﻿
-* hello world! for jsrundll.
+* hello world! jsrundll.
