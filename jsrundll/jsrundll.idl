@@ -13,7 +13,7 @@ import "ocidl.idl";
 interface IObjectDebug : IDispatch
 {
 
-	[id(1)] HRESULT alert( [in] BSTR txt );
+	[id(1)] HRESULT alert( [in] VARIANT txt );
 
 
 

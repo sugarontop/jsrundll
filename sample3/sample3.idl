@@ -1,0 +1,27 @@
+import "oaidl.idl";
+import "ocidl.idl";
+
+[	
+	object,
+	uuid(5FC01A67-EE06-40DE-A7E7-DEB4D6A0724C),
+	dual,
+	pointer_default(unique) 
+]
+interface IObjectAppHelper : IDispatch
+{
+	[id(1)] HRESULT Hello();
+	[id(2),propput] HRESULT EventHandler( [in] VARIANT v );
+	[id(3)] HRESULT EventTest();
+	
+}
+
+///////////////////////////////////////////////////////////////////
+// Server
+[
+	uuid(3E46DC0A-DC9E-433c-89AB-9E271E1DBA0A),
+]
+library BrokerAppServer	
+{
+	importlib("stdole32.tlb");
+	interface IObjectAppHelper;
+};

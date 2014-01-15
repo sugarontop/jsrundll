@@ -21,14 +21,14 @@ int _tmain(int argc, _TCHAR* argv[])
 
 		JSCONTEXT cxt = jsini( &info, JSCRIPT_ENGINE_VERSION );
 
-		JSSetStaticObjects JSObjectAdd = (JSSetStaticObjects)::GetProcAddress( h, "JSSetStaticObjects" );
+		JSSetStaticObjects objadd = (JSSetStaticObjects)::GetProcAddress( h, "JSSetStaticObjects" );
 
 		CComPtr<IDispatch> d;
 		HRESULT hr = CHelper::CreateInstance( &d );
 		LPOLESTR nm[]= { L"app" };
 		IDispatch* pa[] = { d.p };
 
-		JSObjectAdd( cxt, nm, pa, 1 );
+		objadd( cxt, nm, pa, 1 );
 
 		JSRun2 run = (JSRun2)::GetProcAddress( h, "JSRun2" );
 

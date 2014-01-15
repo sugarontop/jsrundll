@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Tue Jan 14 22:53:21 2014
+/* at Wed Jan 15 20:13:50 2014
  */
 /* Compiler settings for sample2.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 

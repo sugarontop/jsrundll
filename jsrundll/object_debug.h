@@ -28,9 +28,13 @@ public:
 	DECLARE_CLASSFACTORY()
 	DECLARE_PROTECT_FINAL_CONSTRUCT()
 
-	STDMETHODIMP alert(BSTR txt )
+	STDMETHODIMP alert(VARIANT vs )
 	{
-		::MessageBox( NULL, txt, L"msgbox", MB_OK );
+		CComVariant vd;
+		if ( S_OK == VariantChangeType( &vd, &vs, VARIANT_NOVALUEPROP, VT_BSTR ))		
+			::MessageBox( NULL, vd.bstrVal, L"msgbox", MB_OK );
+
+
 		return S_OK;
 	}
 
