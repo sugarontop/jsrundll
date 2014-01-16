@@ -25,10 +25,8 @@ int _tmain(int argc, _TCHAR* argv[])
 	
 		JSRun2 run = (JSRun2)::GetProcAddress( h, "JSRun2" );
 
-		run( cxt, L"function alert(s){ debug.alert(s + ' jsrundll'); }" );
-		run( cxt, L"alert( 'hello world' );" );
-	
-
+		run( cxt, L"function alert(s){ debug.alert(s + ' jsrundll'); }" ); // see object_debug.h
+		run( cxt, L"alert( 'hello world' );" );		
 
 		JSClose close = (JSClose)::GetProcAddress( h, "JSClose" );
 		close( cxt );

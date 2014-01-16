@@ -4,6 +4,7 @@
 #include "jsrundll.h"
 #include "cactivescriptsite.h"
 #include "object_debug.h"
+#include "msobject.h"
 
 CComPtr<IActiveScript> pAS;
 CComPtr<IActiveScriptParse> jsParse;
@@ -93,13 +94,12 @@ int Initial2()
 	if ( S_OK !=  jsParse->InitNew() )
 		return -1;
 
-	// Donot forget CActiveScriptSite::GetItemInfo.
-	
+	// Do not forget CActiveScriptSite::GetItemInfo.	
 	// static object in javascript.
 	OLECHAR* ar[] = {	
 		(OLECHAR*)CDebug::name(),
+		(OLECHAR*)CMs::name(),
 		//(OLECHAR*)CJSRunCom::name(),
-		//(OLECHAR*)CMs::name(),
 		//(OLECHAR*)CCryptoAES::name(), 
 		//(OLECHAR*)CCryptoAES256::name(),
 		//(OLECHAR*)CBinary::name(),		
@@ -336,7 +336,7 @@ DLLEXPORT bool WINAPI  JSGetStatic( JSCONTEXT cxt, LPCWSTR nm, IDispatch** pout 
 {
 	if(dwReturnMask & SCRIPTINFO_IUNKNOWN)
 	{
-		if ( lstrcmpW(pstrName, CDebug::name() )==0)
+		if ( !lstrcmpW(pstrName, CDebug::name()))
 		{
 			CComPtr<IDispatch> disp;
 			CDebug::CreateInstance( &disp ); // NOT REGISTORY CLASS
@@ -344,7 +344,7 @@ DLLEXPORT bool WINAPI  JSGetStatic( JSCONTEXT cxt, LPCWSTR nm, IDispatch** pout 
 			*ppiunkItem=(IUnknown*)disp.p;
 			disp.p->AddRef();
 
-			{				
+			/*{				
 				CComPtr<IDispatch> arr;
 				LPOLESTR nm[] = { L"Array" };
 				bool bl =  GetStaticObject( pAS, nm, &arr );
@@ -362,9 +362,18 @@ DLLEXPORT bool WINAPI  JSGetStatic( JSCONTEXT cxt, LPCWSTR nm, IDispatch** pout 
 
 				hr = disp.p->GetIDsOfNames( IID_NULL, nm2, 1, 0, &id );
 				hr = disp.p->Invoke( id, IID_NULL, 0, DISPATCH_PROPERTYPUT, &pm, &v, &ex, &er );
-			}
+			}*/
 
 			return S_OK;
+		}
+		else if ( !lstrcmpW(pstrName, CMs::name()))
+		{
+			CComPtr<IDispatch> disp;
+			CMs::CreateInstance( &disp );
+
+			*ppiunkItem=(IUnknown*)disp.p;
+			disp.p->AddRef();
+			return S_OK;	
 		}
 		else
 		{

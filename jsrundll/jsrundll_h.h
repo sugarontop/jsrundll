@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Wed Jan 15 20:13:50 2014
+/* at Thu Jan 16 22:24:41 2014
  */
 /* Compiler settings for jsrundll.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
@@ -52,11 +52,25 @@ typedef interface IObjectDebug IObjectDebug;
 #endif 	/* __IObjectDebug_FWD_DEFINED__ */
 
 
+#ifndef __IObjectMs_FWD_DEFINED__
+#define __IObjectMs_FWD_DEFINED__
+typedef interface IObjectMs IObjectMs;
+
+#endif 	/* __IObjectMs_FWD_DEFINED__ */
+
+
 #ifndef __IObjectDebug_FWD_DEFINED__
 #define __IObjectDebug_FWD_DEFINED__
 typedef interface IObjectDebug IObjectDebug;
 
 #endif 	/* __IObjectDebug_FWD_DEFINED__ */
+
+
+#ifndef __IObjectMs_FWD_DEFINED__
+#define __IObjectMs_FWD_DEFINED__
+typedef interface IObjectMs IObjectMs;
+
+#endif 	/* __IObjectMs_FWD_DEFINED__ */
 
 
 /* header files for imported files */
@@ -84,6 +98,9 @@ EXTERN_C const IID IID_IObjectDebug;
     {
     public:
         virtual /* [id] */ HRESULT STDMETHODCALLTYPE alert( 
+            /* [in] */ VARIANT txt) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE print( 
             /* [in] */ VARIANT txt) = 0;
         
     };
@@ -148,6 +165,10 @@ EXTERN_C const IID IID_IObjectDebug;
             IObjectDebug * This,
             /* [in] */ VARIANT txt);
         
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *print )( 
+            IObjectDebug * This,
+            /* [in] */ VARIANT txt);
+        
         END_INTERFACE
     } IObjectDebugVtbl;
 
@@ -187,6 +208,9 @@ EXTERN_C const IID IID_IObjectDebug;
 #define IObjectDebug_alert(This,txt)	\
     ( (This)->lpVtbl -> alert(This,txt) ) 
 
+#define IObjectDebug_print(This,txt)	\
+    ( (This)->lpVtbl -> print(This,txt) ) 
+
 #endif /* COBJMACROS */
 
 
@@ -198,12 +222,163 @@ EXTERN_C const IID IID_IObjectDebug;
 #endif 	/* __IObjectDebug_INTERFACE_DEFINED__ */
 
 
+#ifndef __IObjectMs_INTERFACE_DEFINED__
+#define __IObjectMs_INTERFACE_DEFINED__
+
+/* interface IObjectMs */
+/* [unique][dual][uuid][object] */ 
+
+
+EXTERN_C const IID IID_IObjectMs;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+    
+    MIDL_INTERFACE("3119CFD4-2AA6-4E5A-8A37-E026AAE142D0")
+    IObjectMs : public IDispatch
+    {
+    public:
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE XMLHttpRequest( 
+            /* [retval][out] */ VARIANT *v) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE XMLDOMDocument( 
+            /* [retval][out] */ VARIANT *v) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE Guid( 
+            /* [retval][out] */ VARIANT *guid) = 0;
+        
+    };
+    
+    
+#else 	/* C style interface */
+
+    typedef struct IObjectMsVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            IObjectMs * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            IObjectMs * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            IObjectMs * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
+            IObjectMs * This,
+            /* [out] */ UINT *pctinfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
+            IObjectMs * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo **ppTInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
+            IObjectMs * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR *rgszNames,
+            /* [range][in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID *rgDispId);
+        
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
+            IObjectMs * This,
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *XMLHttpRequest )( 
+            IObjectMs * This,
+            /* [retval][out] */ VARIANT *v);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *XMLDOMDocument )( 
+            IObjectMs * This,
+            /* [retval][out] */ VARIANT *v);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *Guid )( 
+            IObjectMs * This,
+            /* [retval][out] */ VARIANT *guid);
+        
+        END_INTERFACE
+    } IObjectMsVtbl;
+
+    interface IObjectMs
+    {
+        CONST_VTBL struct IObjectMsVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define IObjectMs_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define IObjectMs_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define IObjectMs_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define IObjectMs_GetTypeInfoCount(This,pctinfo)	\
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+
+#define IObjectMs_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+
+#define IObjectMs_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+
+#define IObjectMs_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+
+
+#define IObjectMs_XMLHttpRequest(This,v)	\
+    ( (This)->lpVtbl -> XMLHttpRequest(This,v) ) 
+
+#define IObjectMs_XMLDOMDocument(This,v)	\
+    ( (This)->lpVtbl -> XMLDOMDocument(This,v) ) 
+
+#define IObjectMs_Guid(This,guid)	\
+    ( (This)->lpVtbl -> Guid(This,guid) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+
+
+#endif 	/* __IObjectMs_INTERFACE_DEFINED__ */
+
+
 
 #ifndef __BrokerServer_LIBRARY_DEFINED__
 #define __BrokerServer_LIBRARY_DEFINED__
 
 /* library BrokerServer */
 /* [uuid] */ 
+
 
 
 

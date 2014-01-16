@@ -14,10 +14,27 @@ interface IObjectDebug : IDispatch
 {
 
 	[id(1)] HRESULT alert( [in] VARIANT txt );
+	[id(2)] HRESULT print( [in] VARIANT txt );
 
 
 
  }
+
+ ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+ [	object,
+	uuid( 3119CFD4-2AA6-4E5A-8A37-E026AAE142D0 ),
+	dual,
+	pointer_default(unique)
+]
+interface IObjectMs : IDispatch
+{
+	[id(1)] HRESULT XMLHttpRequest( [out,retval] VARIANT* v );
+	[id(2)] HRESULT XMLDOMDocument( [out,retval] VARIANT* v );
+	[id(3)] HRESULT Guid( [out,retval]VARIANT* guid );
+
+}
+
+
  ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 [
 	uuid(961C6952-A47D-414B-91AF-2B05A9096587),
@@ -26,4 +43,5 @@ library BrokerServer
 {
 	importlib("stdole32.tlb");
 	interface IObjectDebug;
+	interface IObjectMs;
 };
